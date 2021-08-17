@@ -29,9 +29,10 @@ def power_matrix(G, A):
     A = A - np.identity(n) #A - I, adajacency matrix - identity matrix to get -1s in the diagonals.
     
     B = [0] * n #values vector
-
     for node in G.nodes():
-        B[node - 1] =  (-1) * G.nodes[node]['value']
+        index = list(G.nodes).index(node)
+        print("index: " + str(index))
+        B[index] =  (-1) * G.nodes[node]['value']
 
     try:
         X = np.linalg.solve(A, B)
@@ -41,7 +42,8 @@ def power_matrix(G, A):
 
     #give the nodes the power property
     for node in G.nodes():
-        G.add_node(node, power=X[node - 1])
+        index = list(G.nodes).index(node)
+        G.add_node(node, power=X[index])
     return G
 
 
@@ -52,10 +54,10 @@ def influence_centrality(G, output_file_name = "output.csv"):
     A = Adj.todense()
 
     #CACLCULATE POWERS:
-    try: #attempt to calculate power using augemented power matrix
-        G = power_matrix(G, A)
-    except: #system isn't linearly independant
-        print("NO SOLUTION")
+#   try: #attempt to calculate power using augemented power matrix
+    G = power_matrix(G, A)
+#    except: #system isn't linearly independant
+#        print("power matrix function failed")
         #pass #it seems the matrix method solves all valid cases
 
     #the power functions added a "power" attribute to all nodes.
