@@ -31,7 +31,7 @@ def power_matrix(G, A):
     B = [0] * n #values vector
     for node in G.nodes():
         index = list(G.nodes).index(node)
-        print("index: " + str(index))
+        #print("index: " + str(index))
         B[index] =  (-1) * G.nodes[node]['value']
 
     try:
